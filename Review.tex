@@ -1,0 +1,483 @@
+\documentclass[12pt]{article}\usepackage{graphicx, color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\usepackage{amsfonts,amsmath,amsthm,amssymb}
+\usepackage{mathrsfs}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{assumption}[theorem]{Assumption}
+
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.2, 0.2, 0.2}
+\newcommand{\hlnumber}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlfunctioncall}[1]{\textcolor[rgb]{0.501960784313725,0,0.329411764705882}{\textbf{#1}}}%
+\newcommand{\hlstring}[1]{\textcolor[rgb]{0.6,0.6,1}{#1}}%
+\newcommand{\hlkeyword}[1]{\textcolor[rgb]{0,0,0}{\textbf{#1}}}%
+\newcommand{\hlargument}[1]{\textcolor[rgb]{0.690196078431373,0.250980392156863,0.0196078431372549}{#1}}%
+\newcommand{\hlcomment}[1]{\textcolor[rgb]{0.180392156862745,0.6,0.341176470588235}{#1}}%
+\newcommand{\hlroxygencomment}[1]{\textcolor[rgb]{0.43921568627451,0.47843137254902,0.701960784313725}{#1}}%
+\newcommand{\hlformalargs}[1]{\textcolor[rgb]{0.690196078431373,0.250980392156863,0.0196078431372549}{#1}}%
+\newcommand{\hleqformalargs}[1]{\textcolor[rgb]{0.690196078431373,0.250980392156863,0.0196078431372549}{#1}}%
+\newcommand{\hlassignement}[1]{\textcolor[rgb]{0,0,0}{\textbf{#1}}}%
+\newcommand{\hlpackage}[1]{\textcolor[rgb]{0.588235294117647,0.709803921568627,0.145098039215686}{#1}}%
+\newcommand{\hlslot}[1]{\textit{#1}}%
+\newcommand{\hlsymbol}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlprompt}[1]{\textcolor[rgb]{0.2,0.2,0.2}{#1}}%
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\usepackage{geometry,amsmath,amssymb, graphicx, natbib, float, enumerate}
+\geometry{margin=1in}
+\renewcommand{\familydefault}{cmss}
+\restylefloat{table}
+\restylefloat{figure}
+
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\logit}{\mathrm{logit}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\argmax}{\operatornamewithlimits{argmax}}
+\newcommand{\arginf}{\operatornamewithlimits{arginf}}
+\newcommand{\argmin}{\operatornamewithlimits{argmin}}
+\renewcommand{\tilde}{\widetilde}
+\renewcommand{\hat}{\widehat}
+\renewcommand{\Pr}{\mathbb{P}}
+\renewcommand{\Re}{\mathbb{R}}
+\newcommand{\Ex}{\mathbb{E}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\DeclareMathOperator{\tr}{tr}
+
+
+\title{Notes for 751 and 752}
+\author{2013 751 and 752 class}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+
+\begin{document}
+\maketitle
+
+\section{The multivariate normal}
+Let X be an $n\times p$ matrix, with $X\sim N(\mu, \Sigma)$ where $\mu$ is $p \times 1$ and $\Sigma$ is $p\times p$. Then:
+$$f(X; \mu, \Sigma) = (2\pi)^{-1/2}|\Sigma|^{-1/2}\exp\{\frac{-1}{2}(X-\mu)'\Sigma^{-1}(X-\mu)\}$$
+\begin{itemize}
+\item $\Sigma A =E[(X-\mu)(X-\mu')]=E[XX']-\mu\mu'$
+\item $X\sim N(A\mu, A\Sigma A')$ provided $A\Sigma A'>0$
+\item $\hat \mu = \bar X = X (J_n'J_n)^{-1}J_n,$ where $J_n$ is an $n\times 1$ column vector of 1's
+\item $\hat \Sigma = \frac{1}{n-p}X(I_n-H)X',$ where $H=J_n(J_n'J_n)^{-1}J_n'$ (unbiased)
+\item $E[X'AX]=\tr(A\Sigma)+E[X']AE[X]$
+\begin{proof}
+\begin{align*}E[X'AX]&=E[\tr(X'AX)]\\
+&=E[\tr(AXX')]\\
+&=\tr(E[AXX'])\\
+&=\tr(AE[XX'])\\
+&=\tr(A(\Sigma+E[X]E[X']))\\
+&=\tr(A\Sigma)+\tr(AE[X]E[X'])\\
+&=\tr(A\Sigma)+\tr(E[X]AE[X'])\\
+&=\tr(A\Sigma)+E[X]AE[X']\\
+\end{align*}
+\end{proof}
+\end{itemize} 
+\subsection{Gaussian Copula} 
+Let $X \sim N(\mu, \Sigma)$ be $p\times 1$ and let F be the distribution function for X. 
+$$F_i:=N(\mu_i, \theta_{ii})=\Theta\big(\frac{X-\mu_i}{\sqrt{\theta_{ii}}}\big).$$
+Given a function $G,$ define the random variables:
+$${U}:=(F_1(X_1), ...., F_p(X_p))$$ 
+$$Y:=(G_1^{-1}(U_1), ...,G_p^{-1}(U_p))$$
+\begin{itemize}
+\item $F\sim U[0,1]$.
+\item $P(Y_i \leq y)=P(G_i^{-1}(F(X_i))\leq y)=G_i(y)$
+\item We can use the multivariate normal distribution to create more complex multivariate distributions with desired marginals (while maintaining the overall structure of the multivariate normal)
+\end{itemize}
+\subsection{Multivariate Delta Method}
+Define a differentiable function $f:\mathbb{R}^n\rightarrow \mathbb{R},$ where $\triangledown f =\begin{pmatrix}\frac{\delta f}{\delta X_1}\\ \vdots \\ \frac {\delta f}{\delta X_n}\end{pmatrix}$ Then:
+$$n^{1/2}(f(\bar X)-f(\mu))\sim N(0, \triangledown f(\mu)' \Sigma \triangledown f (\mu)),$$ and a $(1-\alpha)100\%$ confidence interval for $f(\mu)$ is:
+$$f(\bar X) \pm Z_{1-\frac{\alpha}{2}} \sqrt {\frac{1}{n} \triangledown f(\bar X)' \Sigma \triangledown f (\bar X)}$$
+
+\section{Least squares and the geometry of linear models}
+Let $Y$ be an $n\times 1$ matrix, $X$ be an $n\times p$ matrix, and $\beta$ be a $p\times 1$ matrix, and assume $\rank(X)=p$
+\begin{itemize}
+\item $Y \sim X\beta + \epsilon$
+\item $\hat \beta =(X'X)^{-1}X'Y$ minimizes $\|Y-X\beta\|^2$ (Least Squares)
+\begin{proof}
+\begin{align*}\|Y-X\beta\|^2&=\sum_{i=1}^n(Y_i-X_i'\beta)^2\\
+&=(Y-X\beta)'(Y-X\beta)\\
+&=Y'Y-\beta'X'Y+\beta'X' X \beta -Y'X \beta\\
+&=Y'Y-2\beta'X'Y+\beta'X' X \beta\\\
+\\
+\frac{\delta}{\delta \beta}&=0-2X'Y +2X'X\beta\\
+\\
+X'X\hat{\beta}&=X'Y\\
+\hat{\beta}&=(X'X)^{-1}X'Y\\
+\end{align*}
+\end{proof}
+\item $H:=X(X'X)^{-1}X'$ (``Hat Matrix'')
+\begin{itemize}
+\item H is the orthogonal projection of Y onto the columnspace of X
+\item $\hat Y =H Y$ (i.e. $H:\Re^n \rightarrow \mathcal{P}$ where $\mathcal{P}:=\{\hat Y| \hat Y =X \beta\}$ is a $p$ dimensional subspace of $\Re^n$)
+\item $\rank(H)=p$, $\rank(I_n-H)=n-p$
+\item $H$ and $I_n-H$ are both symmetric and idempotent
+\end{itemize}
+\item We approximate Y by projecting onto the linear basis associated with X
+\begin{itemize}
+\item How much of Y have we explained by the columnspace if X?
+\item Our least-squares estimation of $\hat \beta$ gives the $\hat Y$ that minimize the distance from $Y$ to its projection onto $\mathcal{P}$
+\item Any linear reorganization of the columns of X yields the same approximation (i.e. if $Y=WX\tilde \beta +\epsilon$, then $\hat  \beta = W^{-1}\hat{\tilde \beta}$)
+\end{itemize}
+\end{itemize} 
+\subsection{Residuals}
+\begin{itemize}
+\item Residuals measure the distance between the outcome values and the the fitted value
+\item Least squares minimizes the sum of the residuals
+\item $e=(I_n-X(X'X)^{-1}X')Y=(I_n-H)Y$
+\begin{proof}
+\begin{align*}Y-\hat Y &= Y - X\beta\\
+&=Y-(X(X'X)^{-1}X'Y)\\
+&=(I_n-X(X'X)^{-1}X')Y\\
+&=(I_n-H')Y\\
+\end{align*}
+\end{proof}
+\item The residuals are independent from anything in $\mathcal{C}(X)$
+\end{itemize}
+\subsection{Statistical Properties}
+Suppose $Y|X \stackrel{iid}{\sim} N(X \beta, I \sigma^2)$
+\begin{itemize}
+\item $\hat \beta$ is unbiased
+\item $\Var(\hat \beta)=(X'X)^{-1} \sigma^2$
+\item $S^2=\frac{e'e}{n-p}$ is an unbiased estimator for $\sigma^2$
+\begin{proof}
+In general: if $Y\sim N(\mu, \Sigma)$ then $E[Y'AY]=\tr(A\Sigma)+E[Y']AE[Y]$
+\begin{align*}E[e'e]&=E[Y'(I_n-X(X'X)^{-1}X')Y]\\
+&=\tr[(I_n-X(X'X)^{-1}X')I_n\sigma^2]+E[Y'](I-X(X'X)^{-1}X')E[Y]~~\text{since}~~E[Y]\in \mathcal{C}(X)\\
+&=\tr[(I_n-X(X'X)^{-1}X')I_n\sigma^2]\\
+&=\tr(I_n-X(X'X)^{-1}X')\sigma^2\\
+&=[\tr(I_n)-\tr(X(X'X)^{-1}X')]\sigma^2\\
+&=[\tr(I_n)-\tr(X'(X'X)^{-1}X)]\sigma^2\\
+&=[\tr(I_n)-\tr(I_p)\sigma^2]~~\text{(for symmetric idempotent matrices, trace=rank)}\\
+&=(n-p)\sigma^2
+\end{align*}
+In contrast, the MLE of $\sigma^2$ is $\frac{e'e}{n}$, and is therefore biased.
+\end{proof}
+\end{itemize}
+\subsection{Quadratic Forms}
+Let $X\sim N (\mu, \Sigma$)
+\begin{itemize}
+\item $Z=\Sigma^{-1/2}(X-\mu)\sim N (0, I_n)$
+\item $(X-\mu)'\Sigma^{-1}(X-\mu)\sim \chi^2_n$
+\item $Z'AZ\sim \chi^2_{\rank(A)}$ where $A$ is an $n\times n$, symmetric, idempotent matrix
+\item $X'AX\sim \chi^2_{\rank(A)}$ with a non-centrality parameter $\frac{1}{2}\mu'A\mu$
+\end{itemize}
+Let $X\sim N (\mu, \sigma^2I_n$)
+\begin{itemize}
+\item $\frac{(n-p)\hat\sigma^2}{\sigma^2} \sim \chi^2_{n-p}$ where $\hat \sigma^2 =\frac{e'e}{n-p}$
+\begin{proof}
+\begin{align*}
+\frac{(n-p)\hat\sigma^2}{\sigma^2}&=\frac{e'e}{\sigma^2}\\
+&=\frac{Y'(I-X(X'X)^{-1}X')Y}{\sigma^2}\\
+&=Y'\frac{I-X(X'X)^{-1}X'}{\sigma^2}Y\\
+&=Y'AY~~\text{where}~~A=\frac{I-X(X'X)^{-1}X'}{\sigma^2}\\
+A(\sigma^2 I_n) &=I-X(X'X)^{-1}X'~~\text{is symmetric and idempotent}
+\end{align*}
+\end{proof}
+\end{itemize}
+\subsection{Decomposition of Variation}
+Let $Y=X\beta+\epsilon$ where $\epsilon\sim N(0,\sigma^2I_n)$, and X contains an intercept column. 
+\begin{itemize}
+\item $J_n\in\mathcal{C}(X),$ where $J_n$ is a column vector of 1's. 
+\item $(I_n-X(X'X)^{-1}X')J_n=0,$ (i.e. $(I_n-H)\perp J_n$), so $J_n=X(X'X)^{-1}X')J_n$
+\end{itemize}
+We can decompose the variation in Y into the variation explained by the model (sums of squares regression) and the variation that remains unexplained (sums of squares residuals/ error):
+\begin{align*}\|Y-\bar Y\|^2&=(Y-\bar Y)'(Y-\bar Y)\\
+&=(Y-J(J'J)^{-1}J'Y)'(Y-J(J'J)^{-1}J'Y)\\
+&=Y'Y-Y'J(J'J)^{-1}J'Y-Y'J(J'J)^{-1}J'Y+Y'J(J'J)^{-1}J'J(J'J)^{-1}J'Y\\
+&=Y'Y-Y'J(J'J)^{-1}J'Y-Y'J(J'J)^{-1}J'Y+Y'J(J'J)^{-1}J'Y\\
+&=Y'Y-Y'X(X'X)^{-1}X'Y+Y'X(X'X)^{-1}X'Y-Y'J(J'J)^{-1}J'Y\\
+&=Y'(I-X(X'X)^{-1}X')Y+Y'(X(X'X)^{-1}X'-J(J'J)^{-1}J)Y\\
+&=(Y-\hat Y)'(Y-\hat Y)+(\hat Y-\bar Y)'(\hat Y-\bar Y)\\
+&=\|Y-\hat Y\|^2+ \|\hat Y-\bar Y\|^2\\
+\sum_{i=1}^n(Y_i-\bar Y)^2&=\sum_{i=1}^n(\hat Y_i-\bar Y)^2+\sum_{i=1}^n(Y_i-\hat Y)^2\\
+SS_{tot}&=SS_{reg}+SS_{res}\\
+R^2&=\frac{SS_{reg}}{SS_{tot}}
+\end{align*}
+\subsection{Analysis of Variance}
+
+\section{Likelihood and estimation for linear models}
+Suppose $Y|X \stackrel{iid}{\sim} N(X \beta, \sigma^2I_n)$
+Then, 
+\begin{align*}\mathcal{L}(Y; X\beta, \sigma^2)&=\big(\frac{1}{2\pi}\big)^{\frac{n}{2}}\big(\frac{1}{\sigma^2}\big)^{\frac{n}{2}}\exp\{\frac{-n}{2}(Y-X\beta)'\frac{1}{\sigma^2}(Y-X\beta)\}\\
+\\
+\ell(Y; X\beta, \sigma^2)&=\frac{-n}{2}\ln(2\pi)-\frac{n}{2}\ln(\sigma^2)-\frac{n}{2}(Y-X\beta)'\frac{1}{\sigma^2}(Y-X\beta)\\
+\\
+\frac{\delta}{\delta \sigma^2}&=\frac{-n}{2\sigma^2}+\frac{1}{2\sigma^4}(Y-X\beta)'(Y-X\beta)\\
+\hat \sigma^2&=\frac{(Y-X\beta)'(Y-X\beta)}{n}\\
+&=\frac{e'e}{n}\\
+\end{align*}
+Suppose $Y|X \stackrel{iid}{\sim} N(X \beta, \Sigma^2)$
+Then, 
+\begin{align*}\mathcal{L}(Y; X\beta, \sigma^2)&=\big(\frac{1}{2\pi}\big)^{\frac{n}{2}}\big(\frac{1}{|\Sigma|}\big)^{\frac{n}{2}}\exp\{\frac{-n}{2}(Y-X\beta)'\Sigma^{-1}(Y-X\beta)\}\\
+\\
+\ell(Y; X\beta, \Sigma)&=\frac{-n}{2}\ln(2\pi)-\frac{n}{2}\ln|\Sigma|-\frac{n}{2}(Y-X\beta)'\Sigma^{-1}(Y-X\beta)\\
+\\
+\frac{\delta}{\delta \beta}&=-2X'\Sigma^{-1}Y+2X'\Sigma^{-1}X\beta\\
+\hat \beta(\Sigma)&=(X'\Sigma^{-1}X)^{-1}X'\Sigma^{-1}Y\\
+\end{align*}
+
+\section{Inference for linear models}
+Let $Y=X\beta+ \epsilon$ where $Y, X, \beta$ are $n\times 1, n\times p, p\times 1$ and $\epsilon \sim N(0, \sigma^2I_n)$. Suppose $K$ is a $D \times p$ matrix, so that $K(X'X)^{-1}K'$ is $D\times D$ full rank, and let $m$ be a $D \times 1$ vector. We'll test:
+$$H_0: K \beta =m$$
+\begin{itemize}
+\item Under the null hypothesis: $$K\hat \beta - m \sim N(0, K(X'X)^{-1}X'K'\sigma^2)$$
+$$(K\hat \beta - m)'( K(X'X)^{-1}X'K'\sigma^2)^{-1}(K\hat \beta - m)\sim \chi^2_D$$
+\item If $\sigma^2$ is unknown: F-distribution
+$$e \perp \hat \beta \Rightarrow e'e \perp (K\hat \beta - m)'( K(X'X)^{-1}X'K'\sigma^2)^{-1}(K\hat \beta - m)$$
+$$\frac{(n-p)s^2}{\sigma^2}=\frac{e'e}{\sigma^2}\sim  \chi^2_{n-p}$$
+$$\frac{1/D}{1/(n-p)}\frac{(K\hat \beta - m)'( K(X'X)^{-1}X'K'\sigma^2)^{-1}(K\hat \beta - m)}{{(n-p)s^2/\sigma^2}}=\frac{\chi^2_D /D}{\chi^2_{n-p}/(n-p)}\sim F_{D,n-p}$$
+\end{itemize}
+\subsection{Residual Maximum Likelihood Estimation (REML)}
+Let $Y=X\beta+\epsilon,$ where $\epsilon \sim N(0, \sigma^2)$
+\begin{itemize}
+\item Let $\tilde Y= (I-H)Y$, where $H=X(X'X)^{-1}X'$. Then $\tilde Y \sim SN(0, (I-H)\sigma^2)$
+\item Since $\rank(I-H)=n-p$, taking the first $n-p$ entries of $\tilde Y$ will yield a normal distribution. 
+\item We estimate $\sigma^2$ in the projection space of X. 
+$$\hat \sigma^2 =\frac{e'e}{n-p}$$
+\end{itemize}
+\subsection{Estimability}
+$Y_{ij}=\mu +\beta_i+\epsilon_{ij},$ where $i=1,...,I$ and $j=1, ..., J$
+\begin{itemize}
+\item The design matrix $X$ is $J\times (I+1)$, where the first column is all 1's $\Rightarrow$ not full rank
+\item Define $\theta:=\begin{pmatrix}\mu&\beta_1&...&\beta_I\end{pmatrix}'$
+\item $\hat \theta = (X'X)^\theta X'Y$ is not unique and depends upon a generalized inverse 
+\item We need a linear constraint on the parameters
+\end{itemize}
+Estimability
+\begin{itemize}
+\item A linear function of parameters $q'\beta$ is \emph{estimable} if it is a linear combination of the $E[Y]$ (i.e. it has an unbiased estimator that is a linear function of $Y$)
+\item Estimable functions are constant
+\end{itemize}
+Best Linear Unbiased Estimator
+ Let $q'$ be an estimable function of the parameters
+$$q'\beta=t'X\beta=t'E[Y]$$
+Its estimator $q'\hat \beta$ is BLUE
+\begin{enumerate}
+\item Linear in Y
+\item Unbiased
+\item Minimum variance among collection of linear unbiased estimators
+\begin{align*}\Var(q'\hat \beta)&=q'\Var(\hat \beta)q\\
+&=q'(X'X)^{-1}\sigma^2q\\
+&=t'X(X'X)^{-1}\sigma^2X't\\
+\end{align*}
+\end{enumerate}
+\section{Diagnostics for linear models}
+\subsection{Leverage} 
+Potential influence of a data point
+\begin{itemize}
+\item How far outside the data cloud X is (exert influence depending upon Y)
+\item $h_{ii}:=X_i(X'X)^{-1}X_i', 0\leq h_{ii}\leq 1$
+\item $\Var(e_i)=(1-h_{ii})\sigma^2$
+\item Studentized residuals: comparability across studies
+$$\frac{e_i}{\hat \sigma\sqrt{1-h_{ii}}}~~\text{internally studentized}$$
+$$\frac{e_i}{\hat \sigma_{(i)}\sqrt{1-h_{ii}}}~~\text{externally studentized}$$
+\end{itemize}
+\subsection{Influence}
+How much the inclusion of a data point influences the fit of your model
+\begin{itemize}
+\item Predicted Residual Sums of Squares: leave one out measure of cross-validation
+\item PRESS Residual =residual you would obtain if you take observed data point and subtract off fitted value had you removed that point, fit the model, and tried to predict that point. Overfitting is penalized because the error will be high when you leave out the point.
+$$e_{i,-i}:=Y_i-\hat Y_{i_1-i}=\frac{e_i}{1-h_{ii}}$$
+$$PRESS:=\sum_{i=1}^n(Y_i-\hat Y_{i,-i})^2$$
+\end{itemize} 
+DFFITS
+\begin{itemize}
+\item Measures point wise realized influence on fitted values
+\begin{align*}DFFITS&:=\frac{\hat Y_i-\hat Y_{i,-i}}{S_{-i}\sqrt{h_{ii}}}\\
+&=\frac{Y_i-\hat Y_{i}}{S_{-i}\sqrt{1-h_{ii}}}\big(\frac{h_{ii}}{1-h_{ii}}\big)^{1/2}\\
+&=\text{RStudent}\big(\frac{h_{ii}}{1-h_{ii}}\big)^{1/2}\\
+\end{align*}
+\item How much influence does the $i^{th}$ point have (divided by the SE of the residual with the $i^{th}$ point removed)
+\end{itemize}
+DFBETAS
+$$DFBETAS:=\frac{\hat \beta_j-\hat \beta_{j,-i}}{S_{-i}\sqrt{c_{ii}}},~~\text{where}~~c_{jj}=[(X'X)^{-1}]_{jj}$$
+\begin{itemize}
+\item Measures point wise realized influence on coefficients
+\item Compare the $j^{th}$ component of $\hat \beta$ when point i is included and excluded 
+\end{itemize}
+Cook's Distance
+\begin{align*}D_{i}&:=\frac{(\hat \beta-\hat \beta_{-i})(X'X)(\hat \beta-\hat \beta_{-i})}{pS^2}\\
+\end{align*}
+\begin{itemize}
+\item Measures the effect of deleting a given observation
+\item Jointly analyze the fitted $\beta$ with or without the $i^{th}$ observation
+\end{itemize}
+\section{Confounding, causal inference and the propensity score}
+Confounding occurs when other variables mediate the relationship you are studying between your predictor and response variables.
+\ \\ \ \\
+ Let $Y=X_1 \beta_1 +X_2 \beta_2 +\epsilon=X \beta +\epsilon$ where $X_1$ is $n\times p_1$ and $X_2$ is $n \times p_2$, so that $\beta_1$ and $\beta_2$ are $p_1 \times 1$ and $p_2 \times 1$, respectively.
+\begin{itemize}
+\item Define $MSE(\hat \beta): = E[(\hat \beta-\beta)'(\hat \beta-\beta)]$ and $B(\hat \beta):=E[\hat \beta]-\beta$
+\begin{align*}MSE(\hat \beta)& = E[(\hat \beta-\beta)'(\hat \beta-\beta)]\\
+& = E[\hat{\beta}'\hat{\beta}]-E[\hat \beta'\beta]-E[\beta'\hat \beta]+E[\beta'\beta]\\
+& = E[\hat{\beta}'\hat{\beta}]-E[\hat \beta]'E[\hat \beta]+E[\hat \beta]'E[\hat \beta]-E[\hat \beta'\beta]-E[\beta'\hat \beta]+E[\beta'\beta]\\
+& = E[\hat{\beta}'\hat{\beta}]-E[\hat \beta]'E[\hat \beta]+E[\hat \beta]'E[\hat \beta]-E[\hat \beta']\beta-\beta'\hat E[ \beta]+\beta'\beta\\
+& = E[\hat{\beta}'\hat{\beta}]-E[\hat \beta]'E[\hat \beta]+(E[\hat \beta]-\beta)'(E[\hat \beta]-\beta)\\
+& = E[\hat{\beta}'\hat{\beta}]-E[\hat \beta]'E[\hat \beta]+B(\hat \beta)'B(\hat \beta)\\
+& = \tr\{\Var(\hat \beta)\}+B(\hat \beta)'B(\hat \beta)\\
+\end{align*}
+\item If we include $\beta_2$ in the model, but $\beta_2=0$ then:
+\begin{align*}B(\hat \beta)&=B(X'X)^{-1}X'Y)\\
+&=E[(X'X)^{-1}X'Y]-\beta\\
+&=(X'X)^{-1}X'E[Y]-\beta\\
+&=(X'X)^{-1}X'X\beta-\beta\\
+&=0\\
+\end{align*}
+If we include an unnecessary covariate, we still get an unbiased estimate. 
+\begin{align*}\Var(\hat \beta)&=\Var((X'X)^{-1}X'Y)\\
+&=(X'X)^{-1}X'\Var(Y)X(X'X)^{-1}\\
+&=(X'X)^{-1}X'\Sigma X(X'X)^{-1}\\
+&=(X'X)^{-1}\sigma^2~~\text{if}~~\Sigma=\sigma^2I_n\\
+&=\begin{pmatrix}X_1'X_1 & X_1'X_2 \\ X_2'X_1 & X_2'X_2\end{pmatrix}^{-1}\sigma^2\\
+\end{align*}
+
+\begin{align*}MSE(\hat \beta)&=\tr\{\Var(\hat \beta)\}+B(\hat \beta)'B(\hat \beta)\\
+&=\tr\{\Var(\hat \beta)\}\\
+&=\tr\{\begin{pmatrix}X_1'X_1 & X_1'X_2 \\ X_2'X_1 & X_2'X_2\end{pmatrix}^{-1}\sigma^2\}\\
+&=\tr\{\begin{pmatrix}X_1'X_1 & X_1'X_2 \\ X_2'X_1 & X_2'X_2\end{pmatrix}^{-1}\}\sigma^2\\
+\end{align*}
+If we include an unnecessary covariate, the MSE will be increased.
+
+\item If we exclude $\beta_2$ from the model, but $\beta_2\neq0$ then, $\hat \beta =\hat \beta_1$ and:
+\begin{align*}B(\hat \beta_1)&=B(X_1'X_1)^{-1}X_1'Y)\\
+&=E[(X_1'X_1)^{-1}X_1'Y]-\beta_1\\
+&=(X_1'X_1)^{-1}X_1'E[Y]-\beta_1\\
+&=(X_1'X_1)^{-1}X_1'(X_1\beta_1+X_2\beta_2)-\beta_1\\
+&=(X_1'X_1)^{-1}X_1'X_1\beta_1+(X_1'X_1)^{-1}X_1'X_2\beta_2-\beta_1\\
+&=(X_1'X_1)^{-1}X_1'X_2\beta_2\\
+\end{align*}
+If we exclude a necessary covariate, we still will get a biased estimate of $\beta_1,$ unless $X_2$ is orthogonal to $X_1$
+\begin{align*}\Var(\hat \beta_1)&=\Var((X_1'X_1)^{-1}X_1'Y)\\
+&=(X_1'X_1)^{-1}X'\Var(Y)X_1(X_1'X_1)^{-1}\\
+&=(X_1'X_1)^{-1}\sigma^2\\
+\end{align*}
+If we exclude a necessary covariate, the variability of our coefficients will decrease??
+
+\begin{align*}MSE(\hat \beta_1)&=\tr\{\Var(\hat \beta_1)\}+B(\hat \beta_1)'B(\hat \beta_1)\\
+&=\tr\{(X_1'X_1)^{-1}\sigma^2\}+\beta_2'X_2'X_1(X_1'X_1)^{-1}(X_1'X_1)^{-1}X_1'X_2\beta_2\\
+&=\tr\{(X_1'X_1)^{-1}\}\sigma^2+\beta_2'X_2'X_1(X_1'X_1)^{-1}(X_1'X_1)^{-1}X_1'X_2\beta_2\\
+\end{align*}
+If we exclude a necessary covariate, the MSE will......
+\item $\hat \beta_1 = (e_{X_1 | X_2}'e_{X_1 | X_2})^{-1}e_{X_1 | X_2}'e_{Y | X_2},$ 
+where $$e_{X_1 | X_2}=(I-X_2(X_2'X_2)^{-1}X_2')X_1$$
+$$e_{Y | X_2}=(I-X_2(X_2'X_2)^{-1}X_2')Y$$
+\item If $X_1 \perp X_2$ then: $$\hat \beta = \begin{pmatrix}(X_1'X_1)^{-1}X_1'Y\\(X_2'X_2)^{-1}X_2'Y \end{pmatrix}$$
+\end{itemize}
+To make inferences on the effects of treatments, we need to estimate the response Y of observation X had he received a different treatment.
+\begin{itemize}
+\item Need potential outcomes given treatment to be independent from treatment assignment (Z)
+\item Assume potential outcomes are independent from treatment assignment 
+\item Balancing score: $f(X)$ such that treatment assignment is effectively random within levels.
+\item Propensity Score:``best'' (coarsest) function $e$ so that at fixed value, treatment assignment and potential outcomes are independent 
+$$X\perp Z | b(X)$$
+Let $Z=0$ for controls and $Z=1$ for treated, and define $Y_\ell(Z)$ as the potential outcome of person $\ell$, so that $Y_\ell(1)-Y_\ell(0)$ estimates the person specific effect of treatment. 
+$$e(X):=P(Z=1|X),$$ where we assume
+$$P(Z_1,...,Z_n|X_1,....,X_n)=\Pi_{\ell=1}^ne(X_\ell)^{Z_\ell}\{1-e(X_\ell)\}^{1-Z_\ell}$$
+To estimate $\hat e(X)$, we reduce the dimensions of X. 
+\item Pair matching 
+\end{itemize}
+\section{Asymptotics for linear models}
+\section{Model selection}
+Bias-Variance Tradeoff
+\begin{enumerate}
+\item $Y=X_1\beta_1 +\epsilon$
+\item $Y=X_1\beta_1+X_2\beta_2 +\epsilon$
+\end{enumerate}
+Underfitting: we fit model 1 when model 2 is actually true
+\begin{align*}E[\hat \beta_1^{(1)}]&=E[(X_1'X_1)^{-1}X_1'Y]\\
+&=(X_1'X_1)^{-1}X_1'E[Y]\\
+&=(X_1'X_1)^{-1}X_1'(X_1\beta_1+X_2\beta_2)\\
+&=\beta_1+(X_1'X_1)^{-1}X_1'X_2\beta_2\\
+B[\hat \beta_1^{(1)}]&=(X_1'X_1)^{-1}X_1'X_2\beta_2\\
+\text{Our coefficient estimate is biased}&
+\end{align*}
+\begin{align*}\Var(\hat \beta_1^{(1)})&=\Var((X_1'X_1)^{-1}X_1'Y)\\
+&=(X_1'X_1)^{-1}X_1' \Var(Y)X_1(X_1'X_1)^{-1}\\
+&=(X_1'X_1)^{-1}X_1' \sigma^2 X_1(X_1'X_1)^{-1}\\
+&=(X_1'X_1)^{-1}\sigma^2\\
+\end{align*}
+\begin{align*}E[(Y-\hat Y)'(Y-\hat Y)]&= E[Y'(I-X_1(X_1'X_1)^{-1}X_1'Y]\\
+&= \tr(I-X_1(X_1'X_1)^{-1}X_1)\sigma^2+E[Y'](I-X_1(X_1'X_1)^{-1}X_1')E[Y]\\
+&= \tr(I-X_1(X_1'X_1)^{-1}X_1)\sigma^2+\beta'X'(I-X_1(X_1'X_1)^{-1}X_1')X\beta\\
+&= (n-p_1)\sigma^2+(X_1\beta_1+X_2\beta_2)'(I-X_1(X_1'X_1)^{-1}X_1')(X_1\beta_1+X_2\beta_2)\\
+&= (n-p_1)\sigma^2+(X_2\beta_2)'(I-X_1(X_1'X_1)^{-1}X_1')(X_2\beta_2)\\
+E[S_{(1)}^2]&=\frac{E[(Y-\hat Y)'(Y-\hat Y)]}{n-p_1}\\
+&=\sigma^2+\frac{(X_2\beta_2)'(I-X_1(X_1'X_1)^{-1}X_1')(X_2\beta_2)}{n-p_1}\\
+\text{Our variance estimate is biased}&
+\end{align*}
+Overfitting: we fit model 2 when model 1 is actually true
+\begin{align*}E[\hat \beta_1^{(2)}]&=\beta_1\\
+B[\hat \beta_1^{(2)}]&=0\\
+\text{Our coefficient estimate is unbiased}&
+\end{align*}
+\begin{align*}
+\Var(\hat \beta^{(2)})&=(X'X)^{-1}\sigma^2\\
+\Var(\hat \beta_1^{(2)})&=(X'X)_{11}^{-1}\sigma^2\\
+&\geq \Var(\hat \beta_1^{(1)})\\
+VIF&=\frac{\Var(\hat \beta_1^{(2)})}{\Var(\hat \beta_1^{(1)})}\\
+&=\frac{(X'X)^{-1}}{(X_1'X_1)^{-1}}\\
+\end{align*}
+\begin{align*}E[(Y-\hat Y)'(Y-\hat Y)]&= E[Y'(I-X(X'X)^{-1}X'Y]\\
+&= \tr(I-X(X'X)^{-1}X)\sigma^2+E[Y'](I-X(X'X)^{-1}X')E[Y]\\
+&= \tr(I-X(X'X)^{-1}X)\sigma^2+\beta'X'(I-X(X'X)^{-1}X')X\beta\\
+&= (n-p_1-p_2)\sigma^2+\beta'X'(I-X(X'X)^{-1}X')X\beta\\
+&= (n-p_1+p_2)\sigma^2\\
+E[S_{(2)}^2]&=\frac{E[(Y-\hat Y)'(Y-\hat Y)]}{n-p_1-p_2}\\
+&=\sigma^2\\
+&\text{Our variance estimate is unbiased}\\
+\frac{(n-p_1-p_2)S_{(2)}^2}{\sigma^2}&\sim \chi^2_{n-p_1-p_2}\\
+\Var\big(\frac{(n-p_1-p_2)S_{(2)}^2}{\sigma^2}\big)&=2(n-p_1-p_2)\\
+\Var(S_{(2)}^2)&=\frac{2\sigma^4}{n-p_1-p_2}\\
+&\text{In contrast, the variance estimate for model 1 has:}\\
+\frac{(n-p_1)S_{(1)}^2}{\sigma^2}&\sim \chi^2_{n-p_1}\\
+\Var\big(\frac{(n-p_1)S_{(1)}^2}{\sigma^2}\big)&=2(n-p_1)\\
+\Var(S_{(1)}^2)&=\frac{2\sigma^4}{n-p_1}\\
+\end{align*}
+However the degrees of freedom is now reduced so that the variance estimate in the over fitted model has higher variance, and a confidence interval for the variance estimate will therefore be wider.
+\section{Bayesian linear models}
+
+
+\end{document}
